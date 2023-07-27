@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dashboard</title>
+   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/litera/bootstrap.min.css" rel="stylesheet">
+ </head>
+
+<style type="text/css">
+*{
+    box-sizing: border-box
+} 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.containerMenuTask{
+   height: 50%;
+
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.menu .item {
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0;
+    background-color: #ffffff;
+    border: 1px solid #aa00ee;
+    border-radius: 0;
+    border-right: none;
+}
+
+.menu .item.show {
+    background-color: #dddddd;
+    color: white;
+}
+
+.menu .item:hover {
+    background-color: #ddd;
+}
+
+.menu .item:first-child {
+    border-left: 1px solid #aa00ee;
+    border-radius: 5px 0 0 5px;
+}
+
+.menu .item:last-child {
+    border-right: 1px solid #aa00ee;
+    border-radius: 0 5px 5px 0;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.content iframe p {
+    margin: 10px;
+}
+
+.contentGraficas {
+    height: 50%;
+    display: flex;
+}
+
+.tecnicasRd {
+    width: 17%;
+    height: 100%;
+    background-color: #fff1aa;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.graficas {
+    width: 83%;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.graficas .container {
+    width: 100%; /* Cada gráfica ocupa todo el ancho de su columna */
+}
+.show-graphs-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.show-graphs-button:hover {
+    background-color: #45a049;
+}
+
+.bar {
+    fill: steelblue;
+}
+.container{
+   width: 30%;
+}
+
+</style>
+    <div class="containerMenuTask">
+        <div class="menu">
+            <div class="item" data-index="1" onclick="showContent(1)">Atributos</div>
+            <div class="item" data-index="3" onclick="showContent(2)">Clustering</div>
+        </div>
+        <div class="contentTask">
+            <iframe id="iframe1" srcdoc="<p>Contenido del Item 1</p>" frameborder="0" class="show"></iframe>
+            <iframe id="iframe2" srcdoc="<p>Contenido del Item 2</p>" frameborder="0" class="hide"></iframe>
+            <iframe id="iframe3" srcdoc="<p>Contenido del Item 3</p>" frameborder="0" class="hide"></iframe>
+        </div>
+    </div>
+
+    <div class="contentGraficas">
+      <div class="tecnicasRd">
+          <h2>Técnicas RD</h2>
+          <div>
+              <p data-tippy-content="Estas transformaciones conservan las relaciones lineales entre los puntos de datos, lo que significa que las relaciones lineales en el espacio original se mantienen en el espacio de menor dimensión."><span>T-RD LINEALES</span></p>
+              <input type="checkbox" id="checkbox1" name="grafica1">
+              <label for="checkbox1">PCA</label><br>
+          </div>
+          <div>
+              <p data-tippy-content="Las transformaciones no lineales pueden capturar relaciones complejas y no lineales entre los puntos de datos, lo que permite revelar estructuras más intrincadas y no evidentes en el espacio original de alta dimensión"><span>T-RD NO LIENALES</span></p>
+              <input type="checkbox" id="checkbox2" name="grafica2">
+              <label for="checkbox2">t-SNE</label><br>
+          </div>
+          <button class="show-graphs-button" onclick="mostrarGraficas()">Mostrar Gráficas</button>
+      </div>
+
+
+        <div class="graficas">
+            <div class="container" id="pca_container" style="display: none;">
+                <h2>PCA</h2>
+                <div id="pca_plot"></div>
+            </div>
+            <div class="container" id="tsne_container" style="display: none;">
+                <h2>t-SNE</h2>
+                <div id="tsne_plot"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        function showContent(index) {
+            // Ocultar todos los iframes y div de gráficas
+            document.getElementById('iframe1').classList.add('hide');
+            document.getElementById('iframe2').classList.add('hide');
+
+            // Mostrar el contenido correspondiente según el índice
+            if (index === 1) {
+                document.getElementById('iframe1').classList.remove('hide');
+            } else if (index === 2) {
+                document.getElementById('iframe2').classList.remove('hide');
+            }
+
+            // Aplicar la clase "show" al botón activo y removerla de los demás
+            const menuItems = document.querySelectorAll('.menu .item');
+            menuItems.forEach(item => {
+                if (parseInt(item.dataset.index) === index) {
+                    item.classList.add('show');
+                } else {
+                    item.classList.remove('show');
+                }
+            });
+        }
+        function mostrarGraficas() {
+          // Obtener los checkboxes seleccionados
+          const checkboxPCA = document.getElementById('checkbox1');
+          const checkboxTSNE = document.getElementById('checkbox2');
+
+          // Limpiar el contenido anterior de graficasDiv
+          document.getElementById('pca_container').style.display = 'none';
+          document.getElementById('tsne_container').style.display = 'none';
+
+          // Recorrer los checkboxes y mostrar las gráficas seleccionadas
+          if (checkboxPCA.checked) {
+            // Cargar y mostrar la gráfica PCA
+            document.getElementById('pca_container').style.display = 'block';
+            loadPCAPlot();
+          }
+
+          if (checkboxTSNE.checked) {
+            // Cargar y mostrar la gráfica t-SNE
+            document.getElementById('tsne_container').style.display = 'block';
+            loadTSNEPlot();
+          }
+        }
+
+
+            // Función para cargar el gráfico PCA
+        function loadPCAPlot() {
+            fetch('/pca_plot')
+                .then(response => response.json())
+                .then(data => {
+                    Plotly.newPlot('pca_plot', data.data, data.layout);
+                    // Añadir un evento de selección para el gráfico PCA
+                    document.getElementById('pca_plot').on('plotly_selected', (eventData) => {
+                        var selectedPoints = eventData.points;
+                        var selectedIndices = selectedPoints.map(point => point.pointIndex);
+                        updateTSNEPlot(selectedIndices);
+                    });
+                });
+        }
+
+        // Función para cargar el gráfico t-SNE
+        function loadTSNEPlot() {
+            fetch('/tsne_plot')
+                .then(response => response.json())
+                .then(data => {
+                    Plotly.newPlot('tsne_plot', data.data, data.layout);
+                    // Añadir un evento de selección para el gráfico t-SNE
+                    document.getElementById('tsne_plot').on('plotly_selected', (eventData) => {
+                        var selectedPoints = eventData.points;
+                        var selectedIndices = selectedPoints.map(point => point.pointIndex);
+                        updatePCAPlot(selectedIndices);
+                    });
+                });
+        }
+
+        // Función para cargar el gráfico LLE
+        function loadLLEPlot() {
+        fetch('/lle_plot')
+            .then(response => response.json())
+            .then(data => {
+                Plotly.newPlot('lle_plot', data.data, data.layout);
+                // Añadir un evento de selección para el gráfico LLE
+                document.getElementById('lle_plot').on('plotly_selected', (eventData) => {
+                    var selectedPoints = eventData.points;
+                    var selectedIndices = selectedPoints.map(point => point.pointIndex);
+                    // Implementar la función para actualizar el gráfico LLE si se desea
+                });
+            });
+    }
+
+
+        // Actualizar el gráfico PCA con los puntos seleccionados en el gráfico t-SNE
+        function updatePCAPlot(selectedIndices) {
+            Plotly.restyle('pca_plot', {selectedpoints: selectedIndices});
+        }
+
+        // Actualizar el gráfico t-SNE con los puntos seleccionados en el gráfico PCA
+        function updateTSNEPlot(selectedIndices) {
+            Plotly.restyle('tsne_plot', {selectedpoints: selectedIndices});
+        }
+
+        // Cargar ambos gráficos al cargar la página
+        window.onload = function() {
+            loadPCAPlot();
+            loadTSNEPlot();
+        };
+
+    </script>
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/alert.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/tooltip.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+   <script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper-utils.min.js"></script>
+   <script src="https://unpkg.com/tippy.js@6.3.2/dist/tippy-bundle.umd.min.js"></script>
+   <script>
+    tippy('p[data-tippy-content]');
+   </script>
+
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+*{
+    box-sizing: border-box
+} 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.containerMenuTask{
+   height: 50%;
+
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.menu .item {
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0;
+    background-color: #ffffff;
+    border: 1px solid #aa00ee;
+    border-radius: 0;
+    border-right: none;
+}
+
+.menu .item.show {
+    background-color: #dddddd;
+    color: white;
+}
+
+.menu .item:hover {
+    background-color: #ddd;
+}
+
+.menu .item:first-child {
+    border-left: 1px solid #aa00ee;
+    border-radius: 5px 0 0 5px;
+}
+
+.menu .item:last-child {
+    border-right: 1px solid #aa00ee;
+    border-radius: 0 5px 5px 0;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.content iframe p {
+    margin: 10px;
+}
+
+.contentGraficas {
+    height: 50%;
+    display: flex;
+}
+
+.tecnicasRd {
+    width: 17%;
+    height: 100%;
+    background-color: #fff1aa;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.graficas {
+    width: 83%;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.graficas .container {
+    width: 100%; /* Cada gráfica ocupa todo el ancho de su columna */
+}
+.show-graphs-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.show-graphs-button:hover {
+    background-color: #45a049;
+}
+
+.bar {
+    fill: steelblue;
+}
+.container{
+   width: 30%;
+}

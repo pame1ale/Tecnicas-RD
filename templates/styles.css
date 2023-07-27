@@ -1,0 +1,101 @@
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center; /* Centrar horizontalmente el menú */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .menu .item {
+            cursor: pointer;
+            padding: 10px 20px; /* Agregar más espaciado */
+            margin: 0; /* Eliminar el margen entre los botones */
+            background-color: #ffffff;
+            border: 1px solid #aa00ee;
+            border-radius: 0; /* Eliminar las esquinas redondeadas */
+            border-right: none; /* Eliminar el borde derecho */
+        }
+
+        /* Estilo para el botón activo */
+        .menu .item.show {
+            background-color: #dddddd;
+            color: white;
+        }
+
+        /* Estilo para el botón al pasar el cursor sobre él */
+        .menu .item:hover {
+            background-color: #ddd;
+        }
+
+        /* Estilo para el primer botón */
+        .menu .item:first-child {
+            border-left: 1px solid #aa00ee; /* Agregar borde izquierdo al primer botón */
+            border-radius: 5px 0 0 5px; /* Agregar esquinas redondeadas solo en el primer botón */
+        }
+
+        /* Estilo para el último botón */
+        .menu .item:last-child {
+            border-right: 1px solid #aa00ee; /* Agregar borde derecho al último botón */
+            border-radius: 0 5px 5px 0; /* Agregar esquinas redondeadas solo en el último botón */
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        iframe {
+            width: 100%;
+            height: 60%;
+            border: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .content iframe p {
+            margin: 10px;
+        }
+
+        .contentGraficas{
+            height: 100%;
+            display: flex;
+        }
+
+        /* Estilo para la sección de técnicas de Reducción de Datos (30% del ancho) */
+        .tecnicasRd {
+            width: 30%;
+            height: 100%;
+            background-color: #fff1aa;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box; /* Para que el padding no afecte al ancho total */
+        }
+
+        /* Estilo para la sección de gráficas (70% del ancho) */
+        .graficas {
+            width: 70%;
+           /* background-color: #f9f9f9;*/
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box; /* Para que el padding no afecte al ancho total */
+        }
+
+        /* Add some styling to the histogram */
+        .bar {
+          fill: steelblue;
+        }
